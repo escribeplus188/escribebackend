@@ -50,6 +50,7 @@ public class SpringSecurityConfig {
                 .requestMatchers("/api/users/register").permitAll()
                 .requestMatchers("/api/users/recovery").permitAll()
                 .requestMatchers("/api/users/restore").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/users/ping").permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/api/users/**").hasAnyAuthority("profesor", "estudiante")
                 .requestMatchers(HttpMethod.POST, "/api/users/**").hasAnyAuthority("profesor", "estudiante")
