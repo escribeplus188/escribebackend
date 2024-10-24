@@ -36,7 +36,7 @@ public class LeccionService {
         return repository.findByCursoId(cursoId);
     }
 
-    public List<Leccion> findByTipoLeccion( String tipoLeccion ) {
-        return repository.findByTipoLeccion( tipoLeccion );
+    public List<Leccion> findByTipoLeccionIn( List<String> tipoLeccion ) {
+        return repository.findByTipoLeccionIn( tipoLeccion );
     }
 }

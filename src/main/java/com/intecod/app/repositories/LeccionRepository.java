@@ -8,5 +8,5 @@ public interface LeccionRepository extends MongoRepository<Leccion, String> {
 
     List<Leccion> findByCursoId(String cursoId);
 
-    List<Leccion> findByTipoLeccion( String tipoLeccion );
+    List<Leccion> findByTipoLeccionIn( List<String> tipoLeccion );
 }

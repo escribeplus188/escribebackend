@@ -64,6 +64,10 @@ public class EvaluacionEstudianteService {
         return repository.findByCursoIdAndEvaluacionId( cursoId, evaluacionId );
     }
 
+    public List<EvaluacionEstudiante> findByCursoIdAndEvaluacionIdInAndPonderacionGreaterThan( String cursoId, List<String> EvaluacionId, Integer ponderacion ){
+        return repository.findByCursoIdAndEvaluacionIdInAndPonderacionGreaterThan( cursoId, EvaluacionId, ponderacion );
+    }
+
     
 }
 

@@ -152,6 +152,8 @@ public class UserController {
             String emailText = "Este es un correo para recuperar tu contraseña. " +
                                 "Por favor, haz clic en el siguiente enlace para restablecer tu contraseña: " + recoveryLink;
 
+            System.out.println( emailText );
+
             emailRequest.setText( emailText );
 
              // Enviar el correo

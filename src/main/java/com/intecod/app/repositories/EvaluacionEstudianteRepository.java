@@ -22,4 +22,6 @@ public interface EvaluacionEstudianteRepository extends MongoRepository<Evaluaci
 
     Optional<EvaluacionEstudiante> findByCursoIdAndEvaluacionId( String cursoId, String evaluacionId);
 
+    List<EvaluacionEstudiante> findByCursoIdAndEvaluacionIdInAndPonderacionGreaterThan( String cursoId, List<String> EvaluacionId, Integer ponderacion );
+
 }

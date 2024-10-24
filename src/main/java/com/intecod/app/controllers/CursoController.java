@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,8 @@ import com.intecod.app.services.CursoService;
 
 import com.intecod.app.entities.User;
 import com.intecod.app.services.UserService;
+
+// import io.jsonwebtoken.lang.Arrays;
 
 import com.intecod.app.entities.Leccion;
 import com.intecod.app.services.LeccionService;
@@ -80,7 +83,12 @@ public class CursoController {
 
         curso.setProfesorId( users.getId() );
 
-        List<String> lecciones_asignar = obtenerLeccionesPorTipo( curso.getTipoCurso() ) ;
+
+        List<String> listaTipoLecciones = curso.getTipoCurso().equals("ortografia") ?
+        Arrays.asList( "ortografia", "ortografía", "gramática") :
+        Arrays.asList( "caligrafía" );
+
+        List<String> lecciones_asignar = obtenerLeccionesPorTipo( listaTipoLecciones ) ;
         System.out.println( lecciones_asignar );
         curso.setLecciones( lecciones_asignar );
 
@@ -100,11 +108,11 @@ public class CursoController {
 
     }
 
-    private  List<String> obtenerLeccionesPorTipo( String tipoCurso ){
+    private  List<String> obtenerLeccionesPorTipo( List<String> tipoCurso ){
 
         System.out.println( "--------------" );
         System.out.println( tipoCurso );
-        List<Leccion> lecciones = leccionService.findByTipoLeccion( tipoCurso );
+        List<Leccion> lecciones = leccionService.findByTipoLeccionIn( tipoCurso );
         System.out.println( lecciones );
         return lecciones.stream().map( Leccion::getId ).collect( Collectors.toList() );
         
@@ -799,21 +807,31 @@ public class CursoController {
                     Leccion leccionObj = leccion.get();
                     List<String> evaluciones = leccionObj.getEvaluaciones();
 
-                    for( String evalucion: evaluciones  ){
+                    // for( String evalucion: evaluciones  ){
 
-                        Optional<EvaluacionEstudiante> evaluacionEstudiante = evaluacionEstudianteService.findByCursoIdAndEvaluacionId( id_curso, evalucion );
+                    //     Optional<EvaluacionEstudiante> evaluacionEstudiante = evaluacionEstudianteService.findByCursoIdAndEvaluacionId( id_curso, evalucion );
 
-                        if( evaluacionEstudiante.isPresent() ){
+                    //     if( evaluacionEstudiante.isPresent() ){
                             
-                            EvaluacionEstudiante eva_x_estudiante = evaluacionEstudiante.get();
+                    //         EvaluacionEstudiante eva_x_estudiante = evaluacionEstudiante.get();
 
-                            if( eva_x_estudiante.getPonderacion() > 59 ){
-                                evaluciones_completadas_x_curso += 1;
-                            }
+                    //         if( eva_x_estudiante.getPonderacion() > 59 ){
+                    //             evaluciones_completadas_x_curso += 1;
+                    //         }
                             
-                        }
+                    //     }
 
-                    }
+                    // }
+
+                      // Consulta MongoDB para obtener las evaluaciones completadas (ponderación > 59)
+                        List<EvaluacionEstudiante> evaluacionesCompletadas = evaluacionEstudianteService.findByCursoIdAndEvaluacionIdInAndPonderacionGreaterThan(
+                            id_curso,
+                            evaluciones,
+                            59
+                        );
+
+                        // Suma la cantidad de evaluaciones completadas
+                        evaluciones_completadas_x_curso += evaluacionesCompletadas.size();
                 
                 }
 
