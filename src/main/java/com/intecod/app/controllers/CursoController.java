@@ -504,6 +504,10 @@ public class CursoController {
             cursoOpt.getEstudiantes().remove(idEstudiante);
             
             // 1.5 agrego a los desasignados si no existe
+            if (cursoOpt.getDesasignados() == null) {
+                cursoOpt.setDesasignados(new ArrayList<>());
+            }
+            
             if( !cursoOpt.getDesasignados().contains( idEstudiante ) ){
                 cursoOpt.getDesasignados().add( idEstudiante );
             }

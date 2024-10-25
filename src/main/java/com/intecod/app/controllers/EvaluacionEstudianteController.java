@@ -113,6 +113,14 @@ public class EvaluacionEstudianteController {
             evaluacionEstudiante.setFechaEvaluacion(Date.from(Instant.now()));
         }
 
+        String enlaceResultado = (String) evaluacion.get("enlaceResultado");
+        if (enlaceResultado != null && !enlaceResultado.isEmpty()) {
+            evaluacionEstudiante.setEnlaceResultado(enlaceResultado);
+        } else {
+            evaluacionEstudiante.setEnlaceResultado(null);
+        }
+
+
         boolean tienePreguntasLink = cuestionarioEstudiante.stream()
         .anyMatch(p -> "link".equals(((Map) p.get("pregunta")).get("tipo")));
 
